@@ -1,0 +1,15 @@
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\bin\Debug\net8.0\Theory2_1.exe
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\bin\Debug\net8.0\Theory2_1.deps.json
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\bin\Debug\net8.0\Theory2_1.runtimeconfig.json
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\bin\Debug\net8.0\Theory2_1.dll
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\bin\Debug\net8.0\Theory2_1.pdb
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.AssemblyInfoInputs.cache
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.AssemblyInfo.cs
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.csproj.CoreCompileInputs.cache
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.sourcelink.json
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.dll
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\refint\Theory2_1.dll
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.pdb
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\Theory2_1.genruntimeconfig.cache
+D:\Work\Projects\Modsen\Theory\2.C#\1. Basic syntax structures (like if statements, foreach loops, switch\Theory2_1\obj\Debug\net8.0\ref\Theory2_1.dll
