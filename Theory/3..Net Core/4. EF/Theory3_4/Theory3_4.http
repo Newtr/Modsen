@@ -1,0 +1,6 @@
+@Theory3_4_HostAddress = http://localhost:5264
+
+GET {{Theory3_4_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
