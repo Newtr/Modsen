@@ -1,2 +1,11 @@
 Task: 
 Create a query that retrieves students who are above 20 years old from the SQLite database using LINQ to Entity in your Web API project.
+
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Swashbuckle.AspNetCore
+
+dotnet tool install --global dotnet-ef
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
