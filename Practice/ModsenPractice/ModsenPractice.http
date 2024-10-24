@@ -1,0 +1,6 @@
+@ModsenPractice_HostAddress = http://localhost:5052
+
+GET {{ModsenPractice_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

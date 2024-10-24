@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo1.jpg",
+      "PackagePath": "staticwebassets\\images\\Imo1.jpg"
+    },
+    {
+      "Id": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo2.jpg",
+      "PackagePath": "staticwebassets\\images\\Imo2.jpg"
+    },
+    {
+      "Id": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo3.jpg",
+      "PackagePath": "staticwebassets\\images\\Imo3.jpg"
+    },
+    {
+      "Id": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo4.jpg",
+      "PackagePath": "staticwebassets\\images\\Imo4.jpg"
+    },
+    {
+      "Id": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo5.jpg",
+      "PackagePath": "staticwebassets\\images\\Imo5.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ModsenPractice.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ModsenPractice.props",
+      "PackagePath": "build\\ModsenPractice.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ModsenPractice.props",
+      "PackagePath": "buildMultiTargeting\\ModsenPractice.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ModsenPractice.props",
+      "PackagePath": "buildTransitive\\ModsenPractice.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
