@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "a96Uo0li44RFFLaI0tOCpp9FvNd2bxEThXcS65FnCj4=",
+  "Hash": "gKolTQ9/11drJH942t9VleV2LIdSZEV242Hshrvqudo=",
   "Source": "ModsenPractice",
   "BasePath": "_content/ModsenPractice",
   "Mode": "Default",
@@ -36,12 +36,12 @@
       "OriginalItemSpec": "wwwroot\\images\\Imo1.jpg"
     },
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo2.jpg",
+      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo313260.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
       "BasePath": "_content/ModsenPractice",
-      "RelativePath": "images/Imo2.jpg",
+      "RelativePath": "images/Imo313260.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,15 +52,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\Imo2.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\Imo313260.jpg"
     },
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo3.jpg",
+      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo419580.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
       "BasePath": "_content/ModsenPractice",
-      "RelativePath": "images/Imo3.jpg",
+      "RelativePath": "images/Imo419580.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -71,15 +71,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\Imo3.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\Imo419580.jpg"
     },
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo4.jpg",
+      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo912133.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
       "BasePath": "_content/ModsenPractice",
-      "RelativePath": "images/Imo4.jpg",
+      "RelativePath": "images/Imo912133.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -90,26 +90,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\Imo4.jpg"
-    },
-    {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo5.jpg",
-      "SourceId": "ModsenPractice",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
-      "BasePath": "_content/ModsenPractice",
-      "RelativePath": "images/Imo5.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\Imo5.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\Imo912133.jpg"
     }
   ]
 }

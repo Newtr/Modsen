@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ModsenPractice.Data;
 
@@ -10,9 +11,11 @@ using ModsenPractice.Data;
 namespace ModsenPractice.Migrations
 {
     [DbContext(typeof(ModsenPracticeContext))]
-    partial class ModsenPracticeContextModelSnapshot : ModelSnapshot
+    [Migration("20241026144833_AddEventImagesTable")]
+    partial class AddEventImagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -44,9 +47,14 @@ namespace ModsenPractice.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("MyEventId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("MyEventId");
 
                     b.ToTable("EventImages");
                 });
@@ -123,11 +131,15 @@ namespace ModsenPractice.Migrations
 
             modelBuilder.Entity("ModsenPractice.Entity.EventImage", b =>
                 {
-                    b.HasOne("ModsenPractice.Entity.MyEvent", "MyEvent")
+                    b.HasOne("ModsenPractice.Entity.MyEvent", null)
                         .WithMany("EventImages")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ModsenPractice.Entity.MyEvent", "MyEvent")
+                        .WithMany()
+                        .HasForeignKey("MyEventId");
 
                     b.Navigation("MyEvent");
                 });

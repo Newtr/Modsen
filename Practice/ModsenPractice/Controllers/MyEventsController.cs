@@ -4,6 +4,7 @@ using ModsenPractice.Data;
 using ModsenPractice.Entity; 
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using ModsenPractice.Helpers;
 
 namespace ModsenPractice.Controllers
 {
@@ -20,7 +21,6 @@ namespace ModsenPractice.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        // GET: api/MyEvents
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MyEvent>>> GetAllEvents()
         {
@@ -58,44 +58,128 @@ namespace ModsenPractice.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateEvent([FromForm] MyEvent newEvent, IFormFile EventImage)
+        [HttpGet("filter")]
+        public async Task<ActionResult<IEnumerable<MyEvent>>> GetEventByCriteria(DateTime? date = null, string? location = null, string? category = null)
         {
-            // Проверяем, есть ли файл изображения
-            if (EventImage != null && EventImage.Length > 0)
+            var query = _context.Events.AsQueryable();
+
+            if (date.HasValue)
             {
-                // Сохраняем изображение и получаем путь к файлу
-                string imagePath = SaveImage(EventImage);
-                newEvent.ImagePath = imagePath; // Присваиваем путь к картинке в объект события
+                query = query.Where(e => e.DateOfEvent.Date == date.Value.Date);
             }
 
-            // Добавляем событие в базу данных
+            if (!string.IsNullOrEmpty(location))
+            {
+                query = query.Where(e => e.EventLocation.Contains(location));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(e => e.EventCategory.Contains(category));
+            }
+
+            var filteredEvents = await query.ToListAsync();
+
+            return Ok(filteredEvents);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent([FromForm] MyEvent newEvent, List<IFormFile> eventImages)
+        {
+            if (eventImages != null && eventImages.Count > 0)
+            {
+                newEvent.EventImages = new List<EventImage>();
+
+                foreach (var image in eventImages)
+                {
+                    string imagePath = MyHelpers.SaveImage(image, _hostEnvironment);
+                    var eventImage = new EventImage { ImagePath = imagePath };
+                    newEvent.EventImages.Add(eventImage);
+                }
+            }
+
             _context.Events.Add(newEvent);
             await _context.SaveChangesAsync();
 
-            DeleteUnusedImages();
+            MyHelpers.DeleteUnusedImages(_hostEnvironment, _context);
 
             return CreatedAtAction(nameof(GetEventById), new { id = newEvent.Id }, newEvent);
         }
 
+        [HttpPost("{id}/add-images")]
+        public async Task<IActionResult> AddImagesToEvent(int id, List<IFormFile> eventImages)
+        {
+            // Проверяем, существует ли событие с данным ID
+            var existingEvent = await _context.Events.Include(e => e.EventImages).FirstOrDefaultAsync(e => e.Id == id);
+
+            if (existingEvent == null)
+            {
+                return NotFound("Событие не найдено.");
+            }
+
+            // Проверяем, были ли переданы изображения
+            if (eventImages == null || eventImages.Count == 0)
+            {
+                return BadRequest("Не предоставлены изображения.");
+            }
+
+            // Добавляем новые изображения к событию
+            foreach (var image in eventImages)
+            {
+                // Сохраняем изображение и получаем путь
+                string imagePath = MyHelpers.SaveImage(image, _hostEnvironment);
+
+                // Создаем запись изображения для текущего события
+                var eventImage = new EventImage
+                {
+                    ImagePath = imagePath,
+                    EventId = existingEvent.Id
+                };
+
+                existingEvent.EventImages.Add(eventImage);
+            }
+
+            // Сохраняем изменения в базе данных
+            await _context.SaveChangesAsync();
+
+            return Ok("Изображения успешно добавлены.");
+        }
+
+
         [HttpPut("{id}")]
-        public async Task<ActionResult<MyEvent>> UpdateEventById(int id, [FromForm] MyEvent updatedEvent, IFormFile EventImage)
+        public async Task<ActionResult<MyEvent>> UpdateEventById(int id, [FromForm] MyEvent updatedEvent, List<IFormFile> eventImages)
         {
             if (id != updatedEvent.Id)
             {
                 return BadRequest();
             }
 
-            // Проверяем, был ли загружен новый файл
-            if (EventImage != null)
+            // Загружаем текущее событие
+            var existingEvent = await _context.Events.Include(e => e.EventImages).FirstOrDefaultAsync(e => e.Id == id);
+            if (existingEvent == null)
             {
-                string imagePath = SaveImage(EventImage);
-
-                // Обновляем свойство ImagePath с новым путем к изображению
-                updatedEvent.ImagePath = imagePath;
+                return NotFound();
             }
 
-            _context.Entry(updatedEvent).State = EntityState.Modified;
+            // Обновляем основные поля события
+            existingEvent.Name = updatedEvent.Name;
+            existingEvent.Description = updatedEvent.Description;
+            existingEvent.DateOfEvent = updatedEvent.DateOfEvent;
+            existingEvent.EventLocation = updatedEvent.EventLocation;
+            existingEvent.EventCategory = updatedEvent.EventCategory;
+            existingEvent.MaxMember = updatedEvent.MaxMember;
+
+            // Удаляем старые изображения
+            _context.EventImages.RemoveRange(existingEvent.EventImages);
+
+            // Добавляем новые изображения
+            existingEvent.EventImages = new List<EventImage>();
+            foreach (var image in eventImages)
+            {
+                string imagePath = MyHelpers.SaveImage(image, _hostEnvironment);
+                var eventImage = new EventImage { ImagePath = imagePath, EventId = existingEvent.Id };
+                existingEvent.EventImages.Add(eventImage);
+            }
 
             try
             {
@@ -103,7 +187,7 @@ namespace ModsenPractice.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EventExists(id))
+                if (!MyHelpers.EventExists(id, _context))
                 {
                     return NotFound();
                 }
@@ -114,12 +198,12 @@ namespace ModsenPractice.Controllers
             }
             finally
             {
-                DeleteUnusedImages();
+                MyHelpers.DeleteUnusedImages(_hostEnvironment, _context);
             }
 
-            // Возвращаем статус 204 (No Content), если обновление прошло успешно
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
@@ -135,66 +219,6 @@ namespace ModsenPractice.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        // Метод для сохранения изображения
-        private string SaveImage(IFormFile EventImage)
-        {
-            // Путь к директории, где хранятся изображения
-            var uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
-
-            // Проверяем, существует ли директория, и создаем её, если нужно
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            // Получаем список всех файлов в директории
-            var existingFiles = Directory.GetFiles(uploadsFolder, "Imo*.jpg");
-
-            // Определяем следующий номер файла
-            int nextFileNumber = existingFiles.Length + 1;
-
-            // Генерируем имя файла: Imo1.jpg, Imo2.jpg и т.д.
-            var uniqueFileName = $"Imo{nextFileNumber}.jpg";
-
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                EventImage.CopyTo(fileStream);
-            }
-
-            return Path.Combine("images", uniqueFileName);
-        }
-
-        private bool EventExists(int id)
-        {
-            return _context.Events.Any(e => e.Id == id);
-        }
-
-        // Метод для удаления неиспользуемых изображений
-        private void DeleteUnusedImages()
-        {
-            // Путь к папке с изображениями
-            var uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
-
-            // Получаем все файлы в папке
-            var allFiles = Directory.GetFiles(uploadsFolder);
-
-            // Собираем пути всех изображений, которые используются в событиях
-            var usedImages = _context.Events.Select(e => e.ImagePath).ToList();
-
-            // Проверяем каждый файл, если он не используется, удаляем его
-            foreach (var filePath in allFiles)
-            {
-                var fileName = Path.GetFileName(filePath);
-                if (!usedImages.Contains("images\\" + fileName))
-                {
-                    // Удаляем неиспользуемое изображение
-                    System.IO.File.Delete(filePath);
-                }
-            }
         }
     }
 }
