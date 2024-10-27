@@ -20,7 +20,20 @@ namespace ModsenPractice.Data
         modelBuilder.Entity<MyEvent>()
             .HasMany(e => e.EventMembers)
             .WithMany(m => m.MemberEvents)
-            .UsingEntity(j => j.ToTable("EventsAndMembers")); // Вспомогательная таблица для связи многие ко многим
+            .UsingEntity<Dictionary<string, object>>(
+                "EventsAndMembers",
+                j => j
+                    .HasOne<Member>()
+                    .WithMany()
+                    .HasForeignKey("MemberID") // Новое имя столбца для MemberId
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne<MyEvent>()
+                    .WithMany()
+                    .HasForeignKey("EventID") // Новое имя столбца для EventId
+                    .OnDelete(DeleteBehavior.Cascade)
+            );
+
 
         // Настройка связи один ко многим между MyEvent и EventImage
         modelBuilder.Entity<EventImage>()

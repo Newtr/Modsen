@@ -21,10 +21,13 @@ namespace ModsenPractice.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<MyEvent>>> GetAllEvents()
+        [HttpGet]public async Task<ActionResult<IEnumerable<MyEvent>>> GetAllEvents()
         {
-            var allEvents = await _context.Events.ToListAsync();
+            var allEvents = await _context.Events
+            .Include(e => e.EventMembers)
+            .ThenInclude(em => em.MemberEvents) // Загрузка информации о каждом участнике
+            .ToListAsync();
+
             return Ok(allEvents);
         }
 
@@ -201,24 +204,46 @@ namespace ModsenPractice.Controllers
                 MyHelpers.DeleteUnusedImages(_hostEnvironment, _context);
             }
 
-            return NoContent();
+            return Ok($"Event with id {id} was updated");
         }
 
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
-            var myEvent = await _context.Events.FindAsync(id);
+            // Найти событие по ID
+            var myEvent = await _context.Events
+                .Include(e => e.EventImages) // Включить связанные изображения
+                .FirstOrDefaultAsync(e => e.Id == id);
 
             if (myEvent == null)
             {
                 return NotFound();
             }
 
+            // Путь к папке, где хранятся изображения
+            var imagesFolder = _hostEnvironment.WebRootPath;
+
+            // Удалить файлы изображений, связанные с событием, из папки
+            foreach (var eventImage in myEvent.EventImages)
+            {
+                var imagePath = Path.Combine(imagesFolder, eventImage.ImagePath);
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath); // Удалить файл изображения
+                }
+            }
+
+            // Удалить записи изображений, связанные с этим событием, из базы данных
+            _context.EventImages.RemoveRange(myEvent.EventImages);
+
+            // Удалить само событие
             _context.Events.Remove(myEvent);
+            
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok($"Event with id {id} and all associated images were deleted");
         }
+
     }
 }

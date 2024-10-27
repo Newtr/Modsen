@@ -61,6 +61,35 @@ namespace ModsenPractice.Controllers
 
             return Ok("Участник успешно зарегистрирован на событие.");
         }
+
+        [HttpDelete("unregister")]
+        public async Task<IActionResult> UnregisterFromEvent(int eventId, int memberId)
+        {
+            // Находим событие
+            var eventEntity = await _context.Events
+                .Include(e => e.EventMembers)
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+            
+            if (eventEntity == null)
+            {
+                return NotFound($"Event with ID {eventId} not found.");
+            }
+
+            // Проверяем, если участник уже зарегистрирован
+            var member = eventEntity.EventMembers.FirstOrDefault(m => m.Id == memberId);
+
+            if (member == null)
+            {
+                return NotFound($"Member with ID {memberId} is not registered for this event.");
+            }
+
+            // Удаляем участника из события
+            eventEntity.EventMembers.Remove(member);
+            await _context.SaveChangesAsync();
+
+            return Ok($"Member with ID {memberId} has been unregistered from event with ID {eventId}.");
+        }
+
     }
 
 }
