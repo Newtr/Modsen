@@ -134,3 +134,13 @@ D:\Work\Projects\Modsen\Practice\ModsenPractice\obj\Debug\net8.0\ModsenPractice.
 D:\Work\Projects\Modsen\Practice\ModsenPractice\obj\Debug\net8.0\ModsenPractice.genruntimeconfig.cache
 D:\Work\Projects\Modsen\Practice\ModsenPractice\obj\Debug\net8.0\ref\ModsenPractice.dll
 D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\ModsenPractice.staticwebassets.runtime.json
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\BCrypt.Net.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
