@@ -12,6 +12,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
+using ModsenPractice.Patterns.UnitOfWork;
 
 namespace ModsenPractice.Controllers
 {
@@ -19,40 +20,47 @@ namespace ModsenPractice.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private static List<User> _users = new List<User>
+
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserController(IUnitOfWork unitOfWork)
         {
-            new User { Id = 1, Username = "user1", Email = "user1@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword1"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
-            new User { Id = 2, Username = "user2", Email = "user2@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword2"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
-            new User { Id = 3, Username = "user3", Email = "user3@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword3"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
-            new User { Id = 4, Username = "admin", Email = "admin@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedadminpassword"), Role = new Role { roleID = 2, roleName = "Admin" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now }
-        };
+            _unitOfWork = unitOfWork;
+        }
+        // private static List<User> _users = new List<User>
+        // {
+        //     new User { Id = 1, Username = "user1", Email = "user1@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword1"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
+        //     new User { Id = 2, Username = "user2", Email = "user2@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword2"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
+        //     new User { Id = 3, Username = "user3", Email = "user3@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword3"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
+        //     new User { Id = 4, Username = "admin", Email = "admin@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedadminpassword"), Role = new Role { roleID = 2, roleName = "Admin" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now }
+        // };
         
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegistrationDto registrationDto)
         {
             // Проверка на существование пользователя с таким email
-            if (_users.Any(u => u.Email == registrationDto.Email))
+            if (await _unitOfWork.UserRepository.AnyAsync(registrationDto.Email))
             {
                 return BadRequest("User with this email already exists.");
             }
 
-            // Хэширование пароля (для простоты используем просто обратное шифрование)
+            // Хэширование пароля
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(registrationDto.Password);
 
             // Создание пользователя
             var newUser = new User
             {
-                Id = _users.Max(u => u.Id) + 1,
                 Username = registrationDto.Username,
                 Email = registrationDto.Email,
                 PasswordHash = passwordHash,
-                Role = new Role { roleID = 1, roleName = "User" },
+                RoleId = 1, // ID роли "User" (предполагается, что роли уже добавлены в БД)
                 RefreshToken = null,
                 RefreshTokenExpiryTime = DateTime.Now
             };
 
-            // Сохранение пользователя в списке
-            _users.Add(newUser);
+            // Сохранение пользователя в базе данных
+            await _unitOfWork.UserRepository.AddAsync(newUser);
+            await _unitOfWork.CommitAsync(); // Сохранение всех изменений
 
             return Ok("User registered successfully");
         }
@@ -61,7 +69,7 @@ namespace ModsenPractice.Controllers
         public async Task<IActionResult> Login(UserLoginDto loginDto)
         {
             // Проверка данных пользователя
-            var user = _users.SingleOrDefault(u => u.Email == loginDto.Email);
+            var user = await _unitOfWork.UserRepository.GetByEmailAsync(loginDto.Email);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
@@ -75,6 +83,7 @@ namespace ModsenPractice.Controllers
             // Сохранение refresh токена для пользователя
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1); // Refresh токен действует 24 часа
+            await _unitOfWork.CommitAsync(); // Сохранение всех изменений
 
             return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
         }
@@ -90,8 +99,8 @@ namespace ModsenPractice.Controllers
         public async Task<IActionResult> RefreshToken(TokenRequestDto tokenRequest)
         {
             // Найти пользователя по refresh токену
-            var user = _users.SingleOrDefault(u => u.RefreshToken == tokenRequest.RefreshToken);
-            
+            var user = await _unitOfWork.UserRepository.GetByRefreshTokenAsync(tokenRequest.RefreshToken);
+
             // Проверка: существует ли пользователь с таким refresh токеном и не истек ли его срок действия
             if (user == null || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
@@ -100,7 +109,7 @@ namespace ModsenPractice.Controllers
 
             // Генерация нового access токена
             var newAccessToken = GenerateAccessToken(user);
-            
+
             // Возвращение нового access токена
             return Ok(new { AccessToken = newAccessToken });
         }
@@ -109,6 +118,11 @@ namespace ModsenPractice.Controllers
 
         private string GenerateAccessToken(User user)
         {
+            if (user.Role == null)
+            {
+                throw new InvalidOperationException("User role is not assigned.");
+            }
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ModsenPractice")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e7cc0350c484719247691056148a0ed5d91f9a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cddd8f5c6f2d4efa440c63dcb89a19ce28b9bfa8")]
 [assembly: System.Reflection.AssemblyProductAttribute("ModsenPractice")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ModsenPractice")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

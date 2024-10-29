@@ -4,6 +4,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ModsenPractice.Services;
+using ModsenPractice.Patterns.UnitOfWork;
+using ModsenPractice.Patterns.Repository.Interfaces;
+using ModsenPractice.Patterns.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // Регистрируем IUnitOfWork и его реализацию
+builder.Services.AddScoped<IUserRepository, UserRepository>(); // Регистрируем IUserRepository и его реализацию
+builder.Services.AddScoped<IRoleRepository, RoleRepository>(); // Регистрируем IRoleRepository и его реализацию
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<TokenService>();
@@ -24,8 +32,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
+
 
 builder.Services.AddAuthentication(options =>
 {

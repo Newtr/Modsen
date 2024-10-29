@@ -5,11 +5,14 @@ namespace ModsenPractice.Data
 {
     public class ModsenPracticeContext : DbContext
     {
- public ModsenPracticeContext(DbContextOptions<ModsenPracticeContext> options) : base(options) {}
+    public ModsenPracticeContext(DbContextOptions<ModsenPracticeContext> options) : base(options) {}
 
     // Таблицы для сущностей
     public DbSet<MyEvent> Events { get; set; }
     public DbSet<Member> Members { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+
     public DbSet<EventImage> EventImages { get; set; } // Обратите внимание, что класс должен называться EventImage, а не EventImages
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,6 +43,13 @@ namespace ModsenPractice.Data
             .HasOne(e => e.MyEvent)
             .WithMany(m => m.EventImages)
             .HasForeignKey(e => e.EventId);
+
+        // Настройка связи один ко многим между Role и User
+        modelBuilder.Entity<User>()
+        .HasOne(u => u.Role)
+        .WithMany()
+        .HasForeignKey(u => u.RoleId); // добавьте поле RoleId в класс User
+
         }
     }
 }
