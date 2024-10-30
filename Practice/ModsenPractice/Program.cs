@@ -7,6 +7,7 @@ using ModsenPractice.Services;
 using ModsenPractice.Patterns.UnitOfWork;
 using ModsenPractice.Patterns.Repository.Interfaces;
 using ModsenPractice.Patterns.Repository;
+using ModsenPractice.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

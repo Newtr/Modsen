@@ -144,3 +144,4 @@ D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.Ident
 D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Work\Projects\Modsen\Practice\ModsenPractice\bin\Debug\net8.0\Newtonsoft.Json.dll

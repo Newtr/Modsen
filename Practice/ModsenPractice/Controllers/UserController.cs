@@ -95,6 +95,12 @@ namespace ModsenPractice.Controllers
             return Ok("This is a protected admin resource.");
         }
 
+        [HttpGet("throw-error")]
+        public IActionResult ThrowError()
+        {
+            throw new InvalidOperationException("This is a test exception.");
+        }
+
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenRequestDto tokenRequest)
         {
