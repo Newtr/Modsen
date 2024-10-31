@@ -36,6 +36,14 @@ namespace ModsenPractice.Patterns.Repository
                 .SingleOrDefaultAsync(u => u.RefreshToken == refreshToken);
         }
 
+        public async Task<IEnumerable<User>> GetUsersAsync(int page, int pageSize)
+        {
+            return await _context.Users
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<bool> AnyAsync(string email)
         {
             return await _context.Users.AnyAsync(u => u.Email == email);

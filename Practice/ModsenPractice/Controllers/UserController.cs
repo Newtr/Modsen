@@ -101,6 +101,24 @@ namespace ModsenPractice.Controllers
             throw new InvalidOperationException("This is a test exception.");
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUsers(int page = 1, int pageSize = 10)
+        {
+            if (page <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Page and pageSize must be greater than zero.");
+            }
+
+            var users = await _unitOfWork.UserRepository.GetUsersAsync(page, pageSize);
+            
+            if (!users.Any())
+            {
+                return NotFound("No users found.");
+            }
+
+            return Ok(users);
+        }
+
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenRequestDto tokenRequest)
         {
