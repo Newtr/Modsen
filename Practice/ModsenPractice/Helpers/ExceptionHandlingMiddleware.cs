@@ -16,14 +16,13 @@ namespace ModsenPractice.Helpers
 
         public async Task InvokeAsync(HttpContext context)
         {
-            try
+            await _next(context);
+
+            // Если ответ - 401, добавляем сообщение
+            if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
             {
-                await _next(context); // Передаем запрос следующему компоненту в конвейере
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An unhandled exception occurred."); // Логируем ошибку
-                await HandleExceptionAsync(context, ex); // Обрабатываем исключение и отправляем ответ клиенту
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("You need to log in to view this page.");
             }
         }
 

@@ -88,6 +88,23 @@ namespace ModsenPractice.Controllers
             return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
         }
 
+        [HttpGet("check-information")]
+        [Authorize]
+        public IActionResult CheckInformation()
+        {
+            // Проверка на авторизацию
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                return Unauthorized("You need to log in to view this page.");
+            }
+
+            // Получение имени пользователя из токена
+            var username = User.Identity?.Name;
+
+            return Ok($"Hello {username}, this is a super cool page. You can see it because you have been logged in.");
+        }
+
+
         [HttpGet("admin-resource")]
         [Authorize(Policy = "AdminOnly")]
         public IActionResult GetAdminResource()
