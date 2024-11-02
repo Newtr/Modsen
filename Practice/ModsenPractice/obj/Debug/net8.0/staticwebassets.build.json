@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gKolTQ9/11drJH942t9VleV2LIdSZEV242Hshrvqudo=",
+  "Hash": "CpRoMsaVtuI3gc1rtJeD/dhO9pllGST+g3VD++JyAYE=",
   "Source": "ModsenPractice",
   "BasePath": "_content/ModsenPractice",
   "Mode": "Default",
@@ -17,7 +17,7 @@
   ],
   "Assets": [
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo1.jpg",
+      "Identity": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo1.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
@@ -36,7 +36,7 @@
       "OriginalItemSpec": "wwwroot\\images\\Imo1.jpg"
     },
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo313260.jpg",
+      "Identity": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo313260.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
@@ -55,7 +55,7 @@
       "OriginalItemSpec": "wwwroot\\images\\Imo313260.jpg"
     },
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo419580.jpg",
+      "Identity": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo419580.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",
@@ -74,7 +74,7 @@
       "OriginalItemSpec": "wwwroot\\images\\Imo419580.jpg"
     },
     {
-      "Identity": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo912133.jpg",
+      "Identity": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\images\\Imo912133.jpg",
       "SourceId": "ModsenPractice",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\wwwroot\\",

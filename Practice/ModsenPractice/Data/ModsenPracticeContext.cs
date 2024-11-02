@@ -13,7 +13,7 @@ namespace ModsenPractice.Data
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
 
-    public DbSet<EventImage> EventImages { get; set; } // Обратите внимание, что класс должен называться EventImage, а не EventImages
+    public DbSet<EventImage> EventImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,7 +48,7 @@ namespace ModsenPractice.Data
         modelBuilder.Entity<User>()
         .HasOne(u => u.Role)
         .WithMany()
-        .HasForeignKey(u => u.RoleId); // добавьте поле RoleId в класс User
+        .HasForeignKey(u => u.RoleId);
 
         }
     }

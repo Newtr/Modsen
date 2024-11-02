@@ -1,4 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -70,5 +72,29 @@ namespace ModsenPractice.Helpers
                 }
             }
         }
+
+        public static void SendEmail(string toEmail, string subject, string body)
+        {
+            // Настройки отправки
+            string fromEmail = "newt3rr@gmail.com";      // Почта с которой будут отправляться сообщения
+            string password = "yync qxpf yuzl ltrd";     // Пароль для приложения
+
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress(fromEmail);
+                mail.To.Add(toEmail);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = false;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential(fromEmail, password);
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+        }
+
     }
 }

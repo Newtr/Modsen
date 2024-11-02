@@ -11,7 +11,7 @@ using ModsenPractice.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");  // Для БД миграции
 
 builder.Services.AddDbContext<ModsenPracticeContext>(options =>
     options.UseSqlite(connectionString));
@@ -27,14 +27,14 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>(); // Регистр
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<TokenService>();
+builder.Services.AddSingleton<TokenService>();  // Для генерации токенов
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));  // Для авторизации
 });
 
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");  // Настройки для JWT
 var secretKey = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
 
 

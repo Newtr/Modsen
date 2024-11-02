@@ -53,7 +53,7 @@ namespace ModsenPractice.Controllers
                 Username = registrationDto.Username,
                 Email = registrationDto.Email,
                 PasswordHash = passwordHash,
-                RoleId = 1, // ID роли "User" (предполагается, что роли уже добавлены в БД)
+                RoleId = 1, // ID роли "User" 1 - User 2 - Admin
                 RefreshToken = null,
                 RefreshTokenExpiryTime = DateTime.Now
             };

@@ -150,7 +150,7 @@ namespace ModsenPractice.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MyEvent>> UpdateEventById(int id, [FromForm] MyEvent updatedEvent, List<IFormFile> eventImages)
+        public async Task<ActionResult<MyEvent>> UpdateEventById(int id, [FromForm] MyEvent updatedEvent, List<IFormFile> eventImages, [FromForm] string userEmail)
         {
             if (id != updatedEvent.Id)
             {
@@ -172,7 +172,6 @@ namespace ModsenPractice.Controllers
             existingEvent.EventCategory = updatedEvent.EventCategory;
             existingEvent.MaxMember = updatedEvent.MaxMember;
 
-            // Удаляем старые изображения
             _context.EventImages.RemoveRange(existingEvent.EventImages);
 
             // Добавляем новые изображения
@@ -187,6 +186,12 @@ namespace ModsenPractice.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                // Отправка email после сохранения
+                string subject = "Event Updated";
+                string body = $"Event with id {id} has been successfully updated.";
+                
+                MyHelpers.SendEmail(userEmail, subject, body); // Отправка на указанный email
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -199,6 +204,10 @@ namespace ModsenPractice.Controllers
                     throw;
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка отправки сообщения: {ex.Message}");
+            }
             finally
             {
                 MyHelpers.DeleteUnusedImages(_hostEnvironment, _context);
@@ -208,10 +217,10 @@ namespace ModsenPractice.Controllers
         }
 
 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
-            // Найти событие по ID
             var myEvent = await _context.Events
                 .Include(e => e.EventImages) // Включить связанные изображения
                 .FirstOrDefaultAsync(e => e.Id == id);
