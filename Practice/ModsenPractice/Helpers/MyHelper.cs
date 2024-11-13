@@ -66,26 +66,26 @@ namespace ModsenPractice.Helpers
 
         public static void SendEmail(string toEmail, string subject, string body)
         {
-            private const string FromEmail = "newt3rr@gmail.com";      
-            private const string Password = "yync qxpf yuzl ltrd";   
-            private const string SmtpServer = "smtp.gmail.com";  
-            private const int SmtpPort = 587;
+            const string FromEmail = "newt3rr@gmail.com";      
+            const string Password = "yync qxpf yuzl ltrd";   
+            const string SmtpServer = "smtp.gmail.com";  
+            const int SmtpPort = 587;
 
             using (MailMessage mail = new MailMessage())
-            {
-                mail.From = new MailAddress(fromEmail);
-                mail.To.Add(toEmail);
-                mail.Subject = subject;
-                mail.Body = body;
-                mail.IsBodyHtml = false;
+                    {
+                        mail.From = new MailAddress(FromEmail);
+                        mail.To.Add(toEmail);
+                        mail.Subject = subject;
+                        mail.Body = body;
+                        mail.IsBodyHtml = false;
 
-                using (SmtpClient smtp = new SmtpClient(SmtpServer, SmtpPort))
-                {
-                    smtp.Credentials = new NetworkCredential(fromEmail, password);
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
+                        using (SmtpClient smtp = new SmtpClient(SmtpServer, SmtpPort))
+                        {
+                            smtp.Credentials = new NetworkCredential(FromEmail, Password);
+                            smtp.EnableSsl = true;
+                            smtp.Send(mail);
+                        }
                 }
-            }
         }
 
     }
