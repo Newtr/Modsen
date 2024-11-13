@@ -7,7 +7,6 @@ namespace ModsenPractice.Data
     {
     public ModsenPracticeContext(DbContextOptions<ModsenPracticeContext> options) : base(options) {}
 
-    // Таблицы для сущностей
     public DbSet<MyEvent> Events { get; set; }
     public DbSet<Member> Members { get; set; }
     public DbSet<User> Users { get; set; }
@@ -19,7 +18,6 @@ namespace ModsenPractice.Data
     {
         base.OnModelCreating(modelBuilder);
 
-        // Настройка связи многие ко многим между MyEvent и Member
         modelBuilder.Entity<MyEvent>()
             .HasMany(e => e.EventMembers)
             .WithMany(m => m.MemberEvents)
@@ -28,23 +26,21 @@ namespace ModsenPractice.Data
                 j => j
                     .HasOne<Member>()
                     .WithMany()
-                    .HasForeignKey("MemberID") // Новое имя столбца для MemberId
+                    .HasForeignKey("MemberID")
                     .OnDelete(DeleteBehavior.Cascade),
                 j => j
                     .HasOne<MyEvent>()
                     .WithMany()
-                    .HasForeignKey("EventID") // Новое имя столбца для EventId
+                    .HasForeignKey("EventID")
                     .OnDelete(DeleteBehavior.Cascade)
             );
 
 
-        // Настройка связи один ко многим между MyEvent и EventImage
         modelBuilder.Entity<EventImage>()
             .HasOne(e => e.MyEvent)
             .WithMany(m => m.EventImages)
             .HasForeignKey(e => e.EventId);
 
-        // Настройка связи один ко многим между Role и User
         modelBuilder.Entity<User>()
         .HasOne(u => u.Role)
         .WithMany()

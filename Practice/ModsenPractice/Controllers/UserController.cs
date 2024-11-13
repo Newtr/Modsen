@@ -27,40 +27,29 @@ namespace ModsenPractice.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        // private static List<User> _users = new List<User>
-        // {
-        //     new User { Id = 1, Username = "user1", Email = "user1@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword1"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
-        //     new User { Id = 2, Username = "user2", Email = "user2@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword2"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
-        //     new User { Id = 3, Username = "user3", Email = "user3@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedpassword3"), Role = new Role { roleID = 1, roleName = "User" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now },
-        //     new User { Id = 4, Username = "admin", Email = "admin@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hashedadminpassword"), Role = new Role { roleID = 2, roleName = "Admin" }, RefreshToken = null, RefreshTokenExpiryTime = DateTime.Now }
-        // };
         
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegistrationDto registrationDto)
         {
-            // Проверка на существование пользователя с таким email
             if (await _unitOfWork.UserRepository.AnyAsync(registrationDto.Email))
             {
                 return BadRequest("User with this email already exists.");
             }
 
-            // Хэширование пароля
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(registrationDto.Password);
 
-            // Создание пользователя
             var newUser = new User
             {
                 Username = registrationDto.Username,
                 Email = registrationDto.Email,
                 PasswordHash = passwordHash,
-                RoleId = 1, // ID роли "User" 1 - User 2 - Admin
+                RoleId = 1,
                 RefreshToken = null,
                 RefreshTokenExpiryTime = DateTime.Now
             };
 
-            // Сохранение пользователя в базе данных
             await _unitOfWork.UserRepository.AddAsync(newUser);
-            await _unitOfWork.CommitAsync(); // Сохранение всех изменений
+            await _unitOfWork.CommitAsync();
 
             return Ok("User registered successfully");
         }
@@ -68,7 +57,6 @@ namespace ModsenPractice.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto loginDto)
         {
-            // Проверка данных пользователя
             var user = await _unitOfWork.UserRepository.GetByEmailAsync(loginDto.Email);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
@@ -76,14 +64,12 @@ namespace ModsenPractice.Controllers
                 return Unauthorized("Invalid email or password.");
             }
 
-            // Генерация Access и Refresh токенов
             var accessToken = GenerateAccessToken(user);
             var refreshToken = GenerateRefreshToken();
 
-            // Сохранение refresh токена для пользователя
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1); // Refresh токен действует 24 часа
-            await _unitOfWork.CommitAsync(); // Сохранение всех изменений
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
+            await _unitOfWork.CommitAsync();
 
             return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
         }
@@ -92,13 +78,11 @@ namespace ModsenPractice.Controllers
         [Authorize]
         public IActionResult CheckInformation()
         {
-            // Проверка на авторизацию
             if (!User.Identity?.IsAuthenticated ?? true)
             {
                 return Unauthorized("You need to log in to view this page.");
             }
 
-            // Получение имени пользователя из токена
             var username = User.Identity?.Name;
 
             return Ok($"Hello {username}, this is a super cool page. You can see it because you have been logged in.");
@@ -139,19 +123,15 @@ namespace ModsenPractice.Controllers
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenRequestDto tokenRequest)
         {
-            // Найти пользователя по refresh токену
             var user = await _unitOfWork.UserRepository.GetByRefreshTokenAsync(tokenRequest.RefreshToken);
 
-            // Проверка: существует ли пользователь с таким refresh токеном и не истек ли его срок действия
             if (user == null || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 return Unauthorized("Invalid or expired refresh token.");
             }
-
-            // Генерация нового access токена
+            
             var newAccessToken = GenerateAccessToken(user);
 
-            // Возвращение нового access токена
             return Ok(new { AccessToken = newAccessToken });
         }
 

@@ -7,6 +7,6 @@ namespace ModsenPractice.Patterns.UnitOfWork
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
 
-        Task<int> CommitAsync(); // Сохраняет изменения всех репозиториев сразу
+        Task<int> CommitAsync();
     }
 }

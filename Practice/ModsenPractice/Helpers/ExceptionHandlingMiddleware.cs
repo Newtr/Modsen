@@ -18,7 +18,6 @@ namespace ModsenPractice.Helpers
         {
             await _next(context);
 
-            // Если ответ - 401, добавляем сообщение
             if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
             {
                 context.Response.ContentType = "application/json";

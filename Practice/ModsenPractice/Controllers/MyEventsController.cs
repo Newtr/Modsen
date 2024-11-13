@@ -25,7 +25,7 @@ namespace ModsenPractice.Controllers
         {
             var allEvents = await _context.Events
             .Include(e => e.EventMembers)
-            .ThenInclude(em => em.MemberEvents) // Загрузка информации о каждом участнике
+            .ThenInclude(em => em.MemberEvents)
             .ToListAsync();
 
             return Ok(allEvents);
@@ -112,7 +112,6 @@ namespace ModsenPractice.Controllers
         [HttpPost("{id}/add-images")]
         public async Task<IActionResult> AddImagesToEvent(int id, List<IFormFile> eventImages)
         {
-            // Проверяем, существует ли событие с данным ID
             var existingEvent = await _context.Events.Include(e => e.EventImages).FirstOrDefaultAsync(e => e.Id == id);
 
             if (existingEvent == null)
@@ -120,19 +119,15 @@ namespace ModsenPractice.Controllers
                 return NotFound("Событие не найдено.");
             }
 
-            // Проверяем, были ли переданы изображения
             if (eventImages == null || eventImages.Count == 0)
             {
                 return BadRequest("Не предоставлены изображения.");
             }
 
-            // Добавляем новые изображения к событию
             foreach (var image in eventImages)
             {
-                // Сохраняем изображение и получаем путь
                 string imagePath = MyHelpers.SaveImage(image, _hostEnvironment);
 
-                // Создаем запись изображения для текущего события
                 var eventImage = new EventImage
                 {
                     ImagePath = imagePath,
@@ -142,7 +137,6 @@ namespace ModsenPractice.Controllers
                 existingEvent.EventImages.Add(eventImage);
             }
 
-            // Сохраняем изменения в базе данных
             await _context.SaveChangesAsync();
 
             return Ok("Изображения успешно добавлены.");
@@ -157,14 +151,12 @@ namespace ModsenPractice.Controllers
                 return BadRequest();
             }
 
-            // Загружаем текущее событие
             var existingEvent = await _context.Events.Include(e => e.EventImages).FirstOrDefaultAsync(e => e.Id == id);
             if (existingEvent == null)
             {
                 return NotFound();
             }
 
-            // Обновляем основные поля события
             existingEvent.Name = updatedEvent.Name;
             existingEvent.Description = updatedEvent.Description;
             existingEvent.DateOfEvent = updatedEvent.DateOfEvent;
@@ -174,7 +166,6 @@ namespace ModsenPractice.Controllers
 
             _context.EventImages.RemoveRange(existingEvent.EventImages);
 
-            // Добавляем новые изображения
             existingEvent.EventImages = new List<EventImage>();
             foreach (var image in eventImages)
             {
@@ -187,11 +178,10 @@ namespace ModsenPractice.Controllers
             {
                 await _context.SaveChangesAsync();
 
-                // Отправка email после сохранения
                 string subject = "Event Updated";
                 string body = $"Event with id {id} has been successfully updated.";
                 
-                MyHelpers.SendEmail(userEmail, subject, body); // Отправка на указанный email
+                MyHelpers.SendEmail(userEmail, subject, body);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -222,7 +212,7 @@ namespace ModsenPractice.Controllers
         public async Task<IActionResult> DeleteEvent(int id)
         {
             var myEvent = await _context.Events
-                .Include(e => e.EventImages) // Включить связанные изображения
+                .Include(e => e.EventImages)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             if (myEvent == null)
@@ -230,23 +220,19 @@ namespace ModsenPractice.Controllers
                 return NotFound();
             }
 
-            // Путь к папке, где хранятся изображения
             var imagesFolder = _hostEnvironment.WebRootPath;
 
-            // Удалить файлы изображений, связанные с событием, из папки
             foreach (var eventImage in myEvent.EventImages)
             {
                 var imagePath = Path.Combine(imagesFolder, eventImage.ImagePath);
                 if (System.IO.File.Exists(imagePath))
                 {
-                    System.IO.File.Delete(imagePath); // Удалить файл изображения
+                    System.IO.File.Delete(imagePath);
                 }
             }
 
-            // Удалить записи изображений, связанные с этим событием, из базы данных
             _context.EventImages.RemoveRange(myEvent.EventImages);
 
-            // Удалить само событие
             _context.Events.Remove(myEvent);
             
             await _context.SaveChangesAsync();

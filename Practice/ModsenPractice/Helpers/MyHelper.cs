@@ -13,10 +13,8 @@ namespace ModsenPractice.Helpers
     {
         public static string SaveImage(IFormFile EventImage, IWebHostEnvironment hostEnvironment)
         {
-            // Путь к директории, где хранятся изображения
             var uploadsFolder = Path.Combine(hostEnvironment.WebRootPath, "images");
 
-            // Проверяем, существует ли директория, и создаем её, если нужно
             if (!Directory.Exists(uploadsFolder))
             {
                 Directory.CreateDirectory(uploadsFolder);
@@ -27,14 +25,12 @@ namespace ModsenPractice.Helpers
 
             do
             {
-                // Генерируем случайное число от 1 до 1 миллиона
                 int randomNumber = new Random().Next(1, 1_000_000);
 
-                // Формируем имя файла
                 uniqueFileName = $"Imo{randomNumber}.jpg";
                 filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-            } while (File.Exists(filePath)); // Повторяем, пока не найдем уникальное имя
+            } while (File.Exists(filePath));
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
@@ -52,22 +48,17 @@ namespace ModsenPractice.Helpers
 
         public static void DeleteUnusedImages(IWebHostEnvironment hostEnvironment, ModsenPracticeContext dbContext)
         {
-            // Путь к папке с изображениями
             var uploadsFolder = Path.Combine(hostEnvironment.WebRootPath, "images");
 
-            // Получаем все файлы в папке
             var allFiles = Directory.GetFiles(uploadsFolder);
 
-            // Собираем пути всех изображений, которые используются в событиях
             var usedImages = dbContext.EventImages.Select(img => img.ImagePath).ToList();
 
-            // Проверяем каждый файл, если он не используется, удаляем его
             foreach (var filePath in allFiles)
             {
                 var fileName = Path.GetFileName(filePath);
                 if (!usedImages.Contains("images\\" + fileName))
                 {
-                    // Удаляем неиспользуемое изображение
                     System.IO.File.Delete(filePath);
                 }
             }
@@ -75,9 +66,8 @@ namespace ModsenPractice.Helpers
 
         public static void SendEmail(string toEmail, string subject, string body)
         {
-            // Настройки отправки
-            string fromEmail = "newt3rr@gmail.com";      // Почта с которой будут отправляться сообщения
-            string password = "yync qxpf yuzl ltrd";     // Пароль для приложения
+            string fromEmail = "newt3rr@gmail.com";      
+            string password = "yync qxpf yuzl ltrd";     
 
             using (MailMessage mail = new MailMessage())
             {

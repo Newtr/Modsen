@@ -11,7 +11,7 @@ using ModsenPractice.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");  // Для БД миграции
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ModsenPracticeContext>(options =>
     options.UseSqlite(connectionString));
@@ -21,20 +21,20 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // Регистрируем IUnitOfWork и его реализацию
-builder.Services.AddScoped<IUserRepository, UserRepository>(); // Регистрируем IUserRepository и его реализацию
-builder.Services.AddScoped<IRoleRepository, RoleRepository>(); // Регистрируем IRoleRepository и его реализацию
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<TokenService>();  // Для генерации токенов
+builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));  // Для авторизации
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");  // Настройки для JWT
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
 
 
@@ -54,17 +54,13 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(secretKey),
-        ClockSkew = TimeSpan.Zero // Для более точной проверки времени действия токенов
+        ClockSkew = TimeSpan.Zero
     };
 });
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    // app.UseSwagger();
-    // app.UseSwaggerUI();
-}
+if (app.Environment.IsDevelopment()){}
 
 app.UseHttpsRedirection();
 
