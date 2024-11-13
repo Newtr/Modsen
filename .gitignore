@@ -1,13 +1,11 @@
-# Файлы бинарных сборок
 bin/
 obj/
 
-# Конфигурационные файлы и секреты
 *.config
 *.env
 *.json
 
-# Локальные настройки IDE
+
 .vscode/
 .idea/
 *.suo
@@ -15,15 +13,15 @@ obj/
 *.userosscache
 *.sln.docstates
 
-# Логи и временные файлы
+
 *.log
 *.tmp
 
-# Игнорирование папок сборки
+
 /obj/
 /bin/
 
-# Игнорирование AssemblyInfo и других временных файлов
+
 *.cache
 *.dll
 *.pdb
