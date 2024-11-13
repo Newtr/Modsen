@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ub/bkTCJMwI=",
+  "dgSpecHash": "GYTBVzQ+9+c=",
   "success": true,
-  "projectFilePath": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
+  "projectFilePath": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Newtr\\.nuget\\packages\\bcrypt.net\\0.1.0\\bcrypt.net.0.1.0.nupkg.sha512",
     "C:\\Users\\Newtr\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

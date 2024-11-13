@@ -3330,11 +3330,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
+      "projectUniqueName": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
       "projectName": "ModsenPractice",
-      "projectPath": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
+      "projectPath": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
       "packagesPath": "C:\\Users\\Newtr\\.nuget\\packages\\",
-      "outputPath": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\obj\\",
+      "outputPath": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Work\\Visual Studio\\Shared\\NuGetPackages"

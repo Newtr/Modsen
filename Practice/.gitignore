@@ -1,0 +1,20 @@
+# Файлы бинарных сборок
+bin/
+obj/
+
+# Конфигурационные файлы и секреты
+*.config
+*.env
+*.json
+
+# Локальные настройки IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Логи и временные файлы
+*.log
+*.tmp
