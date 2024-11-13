@@ -66,8 +66,10 @@ namespace ModsenPractice.Helpers
 
         public static void SendEmail(string toEmail, string subject, string body)
         {
-            string fromEmail = "newt3rr@gmail.com";      
-            string password = "yync qxpf yuzl ltrd";     
+            private const string FromEmail = "newt3rr@gmail.com";      
+            private const string Password = "yync qxpf yuzl ltrd";   
+            private const string SmtpServer = "smtp.gmail.com";  
+            private const int SmtpPort = 587;
 
             using (MailMessage mail = new MailMessage())
             {
@@ -77,7 +79,7 @@ namespace ModsenPractice.Helpers
                 mail.Body = body;
                 mail.IsBodyHtml = false;
 
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                using (SmtpClient smtp = new SmtpClient(SmtpServer, SmtpPort))
                 {
                     smtp.Credentials = new NetworkCredential(fromEmail, password);
                     smtp.EnableSsl = true;
