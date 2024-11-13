@@ -33,8 +33,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj": {
-                "projectPath": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj"
+              "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj": {
+                "projectPath": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj"
               }
             }
           }
@@ -99,14 +99,14 @@
         }
       }
     },
-    "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj": {
+    "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
+        "projectUniqueName": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
         "projectName": "ModsenPractice",
-        "projectPath": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
+        "projectPath": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\ModsenPractice.csproj",
         "packagesPath": "C:\\Users\\Newtr\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\obj\\",
+        "outputPath": "d:\\Work\\Projects\\Modsen\\Practice\\ModsenPractice\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Work\\Visual Studio\\Shared\\NuGetPackages"
