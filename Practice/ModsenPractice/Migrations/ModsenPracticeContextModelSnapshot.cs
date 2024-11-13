@@ -106,6 +106,51 @@ namespace ModsenPractice.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("ModsenPractice.Entity.Role", b =>
+                {
+                    b.Property<int>("roleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("roleName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("roleID");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("ModsenPractice.Entity.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("EventsAndMembers", b =>
                 {
                     b.HasOne("ModsenPractice.Entity.MyEvent", null)
@@ -130,6 +175,17 @@ namespace ModsenPractice.Migrations
                         .IsRequired();
 
                     b.Navigation("MyEvent");
+                });
+
+            modelBuilder.Entity("ModsenPractice.Entity.User", b =>
+                {
+                    b.HasOne("ModsenPractice.Entity.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("ModsenPractice.Entity.MyEvent", b =>

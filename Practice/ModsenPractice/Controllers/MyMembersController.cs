@@ -75,7 +75,6 @@ namespace ModsenPractice.Controllers
                 return NotFound($"Event with ID {eventId} not found.");
             }
 
-            // Проверяем, если участник уже зарегистрирован
             var member = eventEntity.EventMembers.FirstOrDefault(m => m.Id == memberId);
 
             if (member == null)
@@ -83,7 +82,6 @@ namespace ModsenPractice.Controllers
                 return NotFound($"Member with ID {memberId} is not registered for this event.");
             }
 
-            // Удаляем участника из события
             eventEntity.EventMembers.Remove(member);
             await _context.SaveChangesAsync();
 

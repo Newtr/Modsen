@@ -11,10 +11,8 @@ namespace ModsenPractice.Entity
     public string EventCategory { get; set; }
     public int MaxMember { get; set; }
 
-    // Связь с таблицей изображений
     public List<EventImage> EventImages { get; set; }
 
-    // Связь с таблицей Members
     public ICollection<Member> EventMembers { get; set; } = new List<Member>();
 
     public MyEvent()

@@ -6,7 +6,6 @@ namespace ModsenPractice.Entity
     public int EventId { get; set; }
     public string ImagePath { get; set; }
 
-    //свойство для связи с MyEvent
     public MyEvent MyEvent { get; set; }
     }
 

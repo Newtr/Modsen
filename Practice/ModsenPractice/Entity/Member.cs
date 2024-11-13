@@ -15,7 +15,6 @@ public class Member
 
     public string Email { get; set; }
 
-    // Связь с таблицей Events
     public ICollection<MyEvent> MemberEvents { get; set; } = new List<MyEvent>();
 
     public Member()
