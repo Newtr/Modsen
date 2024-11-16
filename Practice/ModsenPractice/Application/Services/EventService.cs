@@ -72,7 +72,6 @@ namespace ModsenPractice.Controllers
         var existingEvent = await _context.Events.Include(e => e.EventImages).FirstOrDefaultAsync(e => e.Id == eventId);
         if (existingEvent == null) return false;
 
-        // Обновление свойств события
         existingEvent.Name = updatedEvent.Name;
         existingEvent.Description = updatedEvent.Description;
         existingEvent.DateOfEvent = updatedEvent.DateOfEvent;
